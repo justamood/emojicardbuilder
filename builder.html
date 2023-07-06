@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Custom Emoji Card Builder</title>
+		<link href="./style.css" rel="stylesheet" />
+		<link rel="stylesheet" href="./prettierskin.css" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<h1 class="text-center">Custom Emoji Card Builder</h1>
+		<form id="step1" class="needs-validation outline step" novalidate>
+			<h2>Step 1: Basic Information</h2>
+
+			<label for="cardname" class="form-label">Name</label>
+			<input
+				class="form-control"
+				type="text"
+				name="cardname"
+				id="cardname"
+				maxlength="64"
+				required
+			/>
+
+			<div class="seperatorinputs"></div>
+			<label for="carddesc" class="form-label">Desc</label>
+			<textarea
+				class="form-control"
+				name="carddesc"
+				id="carddesc"
+				maxlength="256"
+			></textarea>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardemoji" class="form-label">Emoji</label>
+			<input
+				class="form-control"
+				type="text"
+				name="cardemoji"
+				id="cardemoji"
+				maxlength="1"
+				required
+			/>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardclass" class="form-label">Class</label>
+			<select class="form-select" name="cardclass" id="cardclass" required>
+				<option hidden disabled selected value>-- Select an option --</option>
+				<option value="cardclassoffense">Offense</option>
+				<option value="cardclasssupport">Support</option>
+				<option value="cardclassdefense">Defense</option>
+			</select>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardtype" class="form-label">Type</label>
+			<select class="form-select" name="cardtype" id="cardtype" required>
+				<option hidden disabled selected value>-- Select an option --</option>
+				<option value="cardtype1">idk 1</option>
+				<option value="cardtype2">idk 2</option>
+				<option value="cardtype3">idk 3</option>
+			</select>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardbasehealth" class="form-label">Starting Health</label>
+			<input
+				class="form-control"
+				type="number"
+				name="cardbasehealth"
+				id="cardbasehealth"
+				min="1"
+				required
+				value="100"
+			/>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardbaseintl" class="form-label">Starting Intelligence</label>
+			<input
+				class="form-control"
+				type="number"
+				name="cardbaseintl"
+				id="cardbaseintl"
+				required
+				value="25"
+			/>
+
+			<div class="seperatorinputs"></div>
+			<div class="continuebuttoncontainer">
+				<button
+					class="nextstep btn btn-success"
+					type="button"
+					onclick="nextFormStep()"
+				>
+					Continue
+				</button>
+			</div>
+		</form>
+		<form class="needs-validation outline step hidden" id="step2">
+			<!-- <div class="seperatorinputs doesNotHideValidation"></div>
+			<hr class="doesNotHideValidation" />
+			<div class="seperatorinputs doesNotHideValidation"></div> -->
+			<h2>Step 2: Abilities</h2>
+
+			<div
+				id="abilityControlButtonsTop"
+				class="abilitiesControls continuebuttoncontainer"
+			>
+				<button
+					class="abilitiesgoback btn btn-secondary prevstep"
+					type="button"
+					onclick="prevFormStep()"
+				>
+					Go Back
+				</button>
+				<button
+					class="newability btn btn-primary"
+					type="button"
+					onclick="newAbility()"
+				>
+					New Ability
+				</button>
+				<button
+					class="abilitiescontinue btn btn-success nextstep"
+					type="button"
+					onclick="nextFormStep()"
+				>
+					Continue
+				</button>
+			</div>
+			<div id="abilities">
+				<div class="ability outline" id="ability0.0.0">
+					<h3>Ability #1</h3>
+
+					<label for="ability0.0.0name" class="form-label">Name</label>
+					<input
+						class="form-control"
+						type="text"
+						name="ability0.0.0name"
+						id="ability0.0.0name"
+						maxlength="64"
+						required
+					/>
+
+					<div class="seperatorinputs"></div>
+					<label for="ability0.0.0type" class="form-label">Type</label>
+					<select
+						class="form-select"
+						name="ability0.0.0type"
+						id="ability0.0.0type"
+						onchange="abilityTypeChange(this)"
+						required
+					>
+						<option hidden disabled selected value>
+							-- Select an option --
+						</option>
+						<option value="abilitydamage">Damage</option>
+						<option value="abilitysupport">Support</option>
+						<option value="abilitycontrol">Control</option>
+						<option value="abilitygroup">Ability Group</option>
+						<option value="abilityluck">Luck</option>
+					</select>
+
+					<div class="seperatorinputs hideunlesssmthselected"></div>
+					<div
+						id="ability0.0.0dynamicinputs"
+						class="outline hideunlesssmthselected"
+					>
+						<div id="ability0.0.0parameters"></div>
+					</div>
+
+					<div class="seperatorinputs"></div>
+					<label for="ability0.0.0cooldown" class="form-label">Cooldown</label>
+					<div class="input-group">
+						<input
+							class="form-control"
+							type="number"
+							name="ability0.0.0cooldown"
+							id="ability0.0.0cooldown"
+							min="0"
+							value="0"
+						/><span class="input-group-text">turn(s)</span>
+					</div>
+
+					<div class="seperatorinputs"></div>
+					<label for="ability0.0.0intllocked" class="form-label"
+						>Intelligence Locked?</label
+					>
+					<div class="form-check form-switch">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							role="switch"
+							name="ability0.0.0intllocked"
+							id="ability0.0.0intllocked"
+							onchange="abilityIntlLockChanged(this)"
+						/>
+					</div>
+					<div
+						id="ability0.0.0intllockvaluecontainer"
+						class="intllockinput"
+						style="display: none"
+					>
+						<div class="seperatorinputs"></div>
+						<label for="ability0.0.0intllockvalue" class="form-label"
+							>Intelligence Required</label
+						>
+						<input
+							class="form-control"
+							type="number"
+							name="ability0.0.0intllockvalue"
+							id="ability0.0.0intllockvalue"
+						/>
+					</div>
+				</div>
+			</div>
+			<div
+				id="abilityControlButtonsBottom"
+				class="abilitiesControls continuebuttoncontainer"
+			>
+				<button
+					class="abilitiesgoback btn btn-secondary prevstep"
+					type="button"
+					onclick="prevFormStep()"
+				>
+					Go Back
+				</button>
+				<button
+					class="newability btn btn-primary"
+					type="button"
+					onclick="newAbility()"
+				>
+					New Ability
+				</button>
+				<button
+					class="abilitiescontinue btn btn-success nextstep"
+					type="button"
+					onclick="nextFormStep()"
+				>
+					Continue
+				</button>
+			</div>
+			<datalist id="goodchancemarkers">
+				<option value="10"></option>
+				<option value="20"></option>
+				<option value="25"></option>
+				<option value="30"></option>
+				<option value="40"></option>
+				<option value="50"></option>
+				<option value="60"></option>
+				<option value="70"></option>
+				<option value="75"></option>
+				<option value="80"></option>
+				<option value="90"></option>
+			</datalist>
+		</form>
+		<form class="needs-validation outline step hidden" id="step3">
+			<!-- <div class="seperatorinputs doesNotHideValidation"></div>
+			<hr class="doesNotHideValidation" />
+			<div class="seperatorinputs doesNotHideValidation"></div> -->
+			<h2>Step 3: Super Ability</h2>
+			<div class="ability" id="abilityS.0.0">
+				<label for="abilityS.0.0name" class="form-label">Name</label>
+				<input
+					class="form-control"
+					type="text"
+					name="abilityS.0.0name"
+					id="abilityS.0.0name"
+					maxlength="64"
+					required
+				/>
+
+				<div class="seperatorinputs"></div>
+				<label for="abilityS.0.0type" class="form-label">Type</label>
+				<select
+					class="form-select"
+					name="abilityS.0.0type"
+					id="abilityS.0.0type"
+					onchange="abilityTypeChange(this)"
+					required
+				>
+					<option hidden disabled selected value>-- Select an option --</option>
+					<option value="abilitydamage">Damage</option>
+					<option value="abilitysupport">Support</option>
+					<option value="abilitycontrol">Control</option>
+					<option value="abilitygroup">Ability Group</option>
+					<option value="abilityluck">Luck</option>
+				</select>
+
+				<div class="seperatorinputs hideunlesssmthselected"></div>
+				<div
+					id="abilityS.0.0dynamicinputs"
+					class="outline hideunlesssmthselected"
+				>
+					<div id="abilityS.0.0parameters"></div>
+				</div>
+
+				<div class="seperatorinputs"></div>
+				<div class="continuebuttoncontainer">
+					<button
+						class="abilitiesgoback btn btn-secondary prevstep"
+						type="button"
+						onclick="prevFormStep()"
+					>
+						Go Back
+					</button>
+					<button
+						class="nextstep btn btn-success"
+						type="button"
+						onclick="goToValidateStep()"
+					>
+						Continue
+					</button>
+				</div>
+			</div>
+		</form>
+		<div class="hidden outline step" id="step4">
+			<h2>Step 4: Validation & Verification</h2>
+			<div class="text-center">
+				<h4 id="validation">Validating Your Custom Emoji Card...</h4>
+				<h4 id="preview" class="hidden">
+					Creating a Text Preview of Your Personalized Emoji Card...
+				</h4>
+				<div class="spinner-border" role="status"></div>
+			</div>
+			<div class="hidden" id="notes">
+				<p id="carderrors"></p>
+				<p id="cardpreview"></p>
+				<pre
+					class="prettyprint"
+				><code id="cardjson" class="lang-json"></code></pre>
+			</div>
+			<div class="seperatorinputs"></div>
+			<div class="continuebuttoncontainer">
+				<button
+					class="abilitiesgoback btn btn-secondary prevstep"
+					type="button"
+					onclick="prevFormStep()"
+				>
+					Go Back
+				</button>
+				<button
+					class="nextstep btn btn-success"
+					type="button"
+					onclick="goToFinalStep()"
+				>
+					Continue
+				</button>
+			</div>
+		</div>
+		<script src="./global.js"></script>
+		<script src="./abilities.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+	</body>
+</html>
