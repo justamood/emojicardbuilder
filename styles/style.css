@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&family=Rubik&display=swap");
+
+*:not(#cardjson, #cardjson *) {
+	font-family: "Rubik", sans-serif;
+}
+
+.form-label {
+	font-weight: 600;
+	margin-bottom: 0px !important;
+}
+
+.seperatorinputs {
+	height: 1em;
+}
+.seperatorsteps {
+	height: 3em;
+}
+.seperatorsubinputs {
+	height: 0.125em;
+}
+.outline {
+	border-radius: 5px;
+	/* border: 1px solid rgba(0, 0, 0, 0.25); */
+	padding: 10px;
+	width: max-content;
+	height: max-content;
+	max-width: 100%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.075),
+		0 6px 20px 0 rgba(0, 0, 0, 0.065);
+	background-color: rgba(0, 0, 0, 0.125);
+}
+
+.outline:not(.ability, .subability, .subsubability) {
+	margin: auto;
+}
+
+#abilities,
+.abilitygroup {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	align-content: flex-start;
+	justify-content: center;
+}
+
+.abilitygroup > div,
+.ability {
+	flex: none;
+}
+
+#abilityControlButtonsTop,
+.addAbilityTop {
+	margin-bottom: 15px;
+}
+
+.addAbility,
+.deleteability {
+	width: 100%;
+}
+
+.nextstep,
+.prevstep,
+.newability {
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+#abilityControlButtonsBottom,
+.addAbilityBottom {
+	margin-top: 15px;
+}
+
+.step {
+	padding: 20px;
+	max-width: 99%;
+}
+
+.hideunlesssmthselected {
+	display: none;
+}
+
+.bad {
+	background-color: rgba(255, 0, 0, 0.175);
+	box-shadow: 0 4px 8px 0 rgba(255, 0, 0, 0.075),
+		0 6px 20px 0 rgba(255, 0, 0, 0.065);
+	/* border: 1px solid rgba(255, 0, 0, 0.25); */
+}
+.good {
+	background-color: rgba(0, 255, 0, 0.175);
+	box-shadow: 0 4px 8px 0 rgba(0, 255, 0, 0.075),
+		0 6px 20px 0 rgba(0, 255, 0, 0.065);
+	/* border: 1px solid rgba(0, 255, 0, 0.25); */
+}
+
+hr {
+	border-top: 1px dashed black !important;
+	width: 99%;
+	margin-left: 0.5% !important;
+	margin-right: 0.5% !important;
+}
+
+.chance {
+	flex: 1;
+}
+
+.chancecontainer {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.goodchancetext {
+	display: inline-block;
+	color: rgb(0, 255, 0);
+	height: 100%;
+	min-width: 3em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.badchancetext {
+	display: inline-block;
+	color: rgb(255, 0, 0);
+	height: 100%;
+	min-width: 3em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.hidden {
+	display: none;
+}
+
+/* *:not(.input-group-text) {
+	animation: slide-up 0.4s ease;
+} */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.abilitiesControls,
+.abilityGroupControls {
+	text-align: center;
+}
+
+.abilitiesControls,
+.continuebuttoncontainer {
+	display: flex;
+	gap: 5px;
+	justify-content: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "DM Sans", sans-serif;
+	font-weight: bold !important;
+}
+
+#emojipicker {
+	position: absolute;
+	margin-left: 60px;
+	margin-top: -56px;
+}
+
+#emojiselection {
+	padding: 5px;
+	width: min-content;
+	border: var(--bs-border-width) solid var(--bs-border-color);
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: var(--bs-border-radius);
+	background-color: var(--bs-body-bg);
+	background-clip: padding-box;
+}
+
+#selectedemoji {
+	cursor: pointer;
+	width: min-content;
+	filter: brightness(100%);
+	transition: all 0.5s ease;
+}
+#selectedemoji:hover {
+	filter: brightness(90%);
+}
+
+#selectedemojiimage {
+	width: 50px;
+	height: 50px;
+}
+
+#cardemoji {
+	height: 1px !important;
+	border: none !important;
+	padding: 0px !important;
+	opacity: 0%;
+	display: block;
+}
+
+.was-validated .invalid {
+	border-color: var(--bs-form-invalid-border-color) !important;
+}
+.was-validated .valid {
+	border-color: var(--bs-form-valid-border-color) !important;
+}
+
+#copyjson {
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+/* @keyframes slide-up {
+	0% {
+		opacity: 0;
+		transform: translateX(-50%);
+	}
+	10% {
+		opacity: 0;
+		transform: translateX(-50%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+} */
