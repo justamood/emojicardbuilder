@@ -210,10 +210,19 @@ function formatAbility(ability) {
 				}
 			}
 		}
-		if (!["turnskip", "stun"].includes(formattedAbility.form)) {
+		if (
+			!["abilitycontrolturnskip", "abilitycontrolstun"].includes(
+				formattedAbility.form
+			)
+		) {
 			if (!formattedAbility.parameters.deck)
 				formattedAbility.parameters.deck = false;
 			else formattedAbility.parameters.deck = true;
+		}
+		if (formattedAbility.form === "abilitysupporthealing") {
+			if (!formattedAbility.parameters.cantargetdead)
+				formattedAbility.parameters.cantargetdead = false;
+			else formattedAbility.parameters.cantargetdead = true;
 		}
 	}
 	if (formattedAbility.intllocked !== "on") {
