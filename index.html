@@ -45,9 +45,10 @@
 			<div id="emojiselection" class="invalid">
 				<div
 					id="selectedemoji"
-					onclick="emojipicker.style.display = 'inline-block';
-"
+					onclick="emojipicker.style.display = 'inline-block';"
 					role="button"
+					tabindex="0"
+					onkeydown="if(['Enter',' '].includes(event.key) && !event.altKey && !event.ctrlKey && !event.metaKey) emojipicker.style.display = 'inline-block';"
 				>
 					<img src="./images/emojiselectorempty.png" id="selectedemojiimage" />
 				</div>
@@ -58,8 +59,9 @@
 				name="cardemoji"
 				id="cardemoji"
 				required
-				onkeypress="return false;"
+				onkeydown="return false;"
 				oninvalid="setCustomValidity('Please select an emoji.')"
+				tabindex="-1"
 			/>
 			<div class="seperatorinputs"></div>
 			<label for="cardclass" class="form-label">Class</label>

@@ -179,21 +179,34 @@ h6 {
 	border-radius: var(--bs-border-radius);
 	background-color: var(--bs-body-bg);
 	background-clip: padding-box;
+	transition: all 0.15s ease-in-out;
 }
 
 #selectedemoji {
 	cursor: pointer;
 	width: min-content;
-	filter: brightness(100%);
-	transition: all 0.5s ease;
 }
-#selectedemoji:hover {
-	filter: brightness(90%);
+
+#selectedemoji {
+	outline: none;
+}
+
+#emojiselection:focus-within {
+	color: var(--bs-body-color);
+	background-color: var(--bs-body-bg);
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 #selectedemojiimage {
 	width: 50px;
 	height: 50px;
+	filter: brightness(100%);
+	transition: all 0.15s ease-in-out;
+}
+#selectedemojiimage:hover {
+	filter: brightness(90%);
 }
 
 #cardemoji {
@@ -202,6 +215,7 @@ h6 {
 	padding: 0px !important;
 	opacity: 0%;
 	display: block;
+	cursor: default;
 }
 
 .was-validated .invalid {
