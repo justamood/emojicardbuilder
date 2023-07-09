@@ -230,6 +230,11 @@ h6 {
 	margin-bottom: 15px;
 }
 
+.percenttooltip {
+	--bs-tooltip-bg: #eee !important;
+	--bs-tooltip-color: #111 !important;
+}
+
 /* @keyframes slide-up {
 	0% {
 		opacity: 0;

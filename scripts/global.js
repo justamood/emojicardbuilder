@@ -275,6 +275,9 @@ window.addEventListener("load", () => {
 		set: "twitter",
 		skinTonePosition: "search",
 		theme: "light",
+		emojiVersion: 14,
+		getSpritesheetURL: () =>
+			"https://cdn.jsdelivr.net/npm/emoji-datasource-twitter@14.0.0/img/twitter/sheets-256/64.png",
 	};
 	const picker = new EmojiMart.Picker(pickerOptions);
 

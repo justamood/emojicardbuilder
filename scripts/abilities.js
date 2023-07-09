@@ -158,14 +158,17 @@ function abilityDamageFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-label">Damage Type</label>
 				<br/>
 				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypefixed" value="fixed" checked onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
-				<div id="ability${idx}.${subidx}.${subsubidx}percenttooltip" class="percenttooltip" style="display:none">
-					<small class="text-body-secondary">*Percent of remaining health, not base health</small>
-				</div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}damagedirectpercent" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of remaining health, not base health"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}damage" class="form-label">Damage Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}damage" id="ability${idx}.${subidx}.${subsubidx}damage" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
 			`
+		);
+		new bootstrap.Tooltip(
+			document.getElementById(
+				`ability${idx}.${subidx}.${subsubidx}damagedirectpercent`
+			),
+			{ trigger: "hover" }
 		);
 	} else if (value === "abilitydamageintelligence") {
 		parameters.insertAdjacentHTML(
@@ -175,14 +178,17 @@ function abilityDamageFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-label">Damage Type</label>
 				<br/>
 				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypefixed" value="fixed" checked onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
-				<div id="ability${idx}.${subidx}.${subsubidx}percenttooltip" class="percenttooltip" style="display:none">
-					<small class="text-body-secondary">*Percent of remaining intelligence, not base intelligence</small>
-				</div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}damageintlpercent" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of remaining intelligence, not base intelligence"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}damage" class="form-label">Damage Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}damage" id="ability${idx}.${subidx}.${subsubidx}damage" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
 			`
+		);
+		new bootstrap.Tooltip(
+			document.getElementById(
+				`ability${idx}.${subidx}.${subsubidx}damageintlpercent`
+			),
+			{ trigger: "hover" }
 		);
 	} else if (value === "abilitydamagedebuff") {
 		parameters.insertAdjacentHTML(
@@ -227,23 +233,18 @@ function abilityDamageDamageTypeChange(radio) {
 	const span = document.getElementById(
 		`ability${idx}.${subidx}.${subsubidx}span`
 	);
-	const percenttooltip = document.getElementById(
-		`ability${idx}.${subidx}.${subsubidx}percenttooltip`
-	);
 	if (value === "percent") {
 		input.setAttribute("max", "100");
 		span.innerHTML = "%";
 		span.style.display = "inline";
 		span.classList.add("input-group-text");
 		span.parentElement.classList.add("input-group");
-		percenttooltip.style.display = "block";
 	} else if (value === "fixed") {
 		input.removeAttribute("max");
 		span.innerHTML = "";
 		span.style.display = "none";
 		span.classList.remove("input-group-text");
 		span.parentElement.classList.remove("input-group");
-		percenttooltip.style.display = "none";
 	}
 }
 
@@ -332,10 +333,7 @@ function abilitySupportFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-label">Heal Type</label>
 				<br/>
 				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypefixed" value="fixed" checked onclick="abilitySupportHealTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypepercent" value="percent" onclick="abilitySupportHealTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label">Percent</label></div>
-				<div id="ability${idx}.${subidx}.${subsubidx}percenttooltip" class="percenttooltip" style="display:none">
-					<small class="text-body-secondary">*Percent of lost health, not current health <em>(becomes irrelevant if the card hasn't lost any health or if its current health exceeds the base health of the card.)</em></small>
-				</div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supporthealpercent" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of lost health, not current health <em>(becomes irrelevant if the card hasn't lost any health or if its current health exceeds the base health of the card.)</em>"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypepercent" value="percent" onclick="abilitySupportHealTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label">Percent</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}heal" class="form-label">Heal Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}heal" id="ability${idx}.${subidx}.${subsubidx}heal" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
@@ -343,6 +341,12 @@ function abilitySupportFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}cantargetdead" class="form-label">Can Target Dead Cards?</label>
 				<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" name="ability${idx}.${subidx}.${subsubidx}cantargetdead" id="ability${idx}.${subidx}.${subsubidx}cantargetdead" /></div>
 			`
+		);
+		new bootstrap.Tooltip(
+			document.getElementById(
+				`ability${idx}.${subidx}.${subsubidx}supporthealpercent`
+			),
+			{ trigger: "hover" }
 		);
 	} else if (value === "abilitysupportintelligence") {
 		parameters.insertAdjacentHTML(
@@ -352,14 +356,17 @@ function abilitySupportFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-label">Increase Type</label>
 				<br/>
 				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypefixed" value="fixed" checked onclick="abilitySupportIncreaseTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypepercent" value="percent" onclick="abilitySupportIncreaseTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label">Percent</label></div>
-				<div id="ability${idx}.${subidx}.${subsubidx}percenttooltip" class="percenttooltip" style="display:none">
-					<small class="text-body-secondary">*Percent of lost intelligence, not current intelligence <em>(becomes irrelevant if the card hasn't lost any intelligence or if its current intelligence exceeds the base intelligence of the card.)</em></small>
-				</div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supportintlpercent" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of lost intelligence, not current intelligence <em>(becomes irrelevant if the card hasn't lost any intelligence or if its current intelligence exceeds the base intelligence of the card.)</em>"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypepercent" value="percent" onclick="abilitySupportIncreaseTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label">Percent</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}heal" class="form-label">Increase Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}increase" id="ability${idx}.${subidx}.${subsubidx}increase" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
 			`
+		);
+		new bootstrap.Tooltip(
+			document.getElementById(
+				`ability${idx}.${subidx}.${subsubidx}supportintlpercent`
+			),
+			{ trigger: "hover" }
 		);
 	} else if (value === "abilitysupportboost") {
 		parameters.insertAdjacentHTML(
@@ -403,23 +410,18 @@ function abilitySupportHealTypeChange(radio) {
 	const span = document.getElementById(
 		`ability${idx}.${subidx}.${subsubidx}span`
 	);
-	const percenttooltip = document.getElementById(
-		`ability${idx}.${subidx}.${subsubidx}percenttooltip`
-	);
 	if (value === "percent") {
 		input.setAttribute("max", "100");
 		span.innerHTML = "%";
 		span.style.display = "inline";
 		span.classList.add("input-group-text");
 		span.parentElement.classList.add("input-group");
-		percenttooltip.style.display = "block";
 	} else if (value === "fixed") {
 		input.removeAttribute("max");
 		span.innerHTML = "";
 		span.style.display = "none";
 		span.classList.remove("input-group-text");
 		span.parentElement.classList.remove("input-group");
-		percenttooltip.style.display = "none";
 	}
 }
 
@@ -437,23 +439,18 @@ function abilitySupportIncreaseTypeChange(radio) {
 	const span = document.getElementById(
 		`ability${idx}.${subidx}.${subsubidx}span`
 	);
-	const percenttooltip = document.getElementById(
-		`ability${idx}.${subidx}.${subsubidx}percenttooltip`
-	);
 	if (value === "percent") {
 		input.setAttribute("max", "100");
 		span.innerHTML = "%";
 		span.style.display = "inline";
 		span.classList.add("input-group-text");
 		span.parentElement.classList.add("input-group");
-		percenttooltip.style.display = "block";
 	} else if (value === "fixed") {
 		input.removeAttribute("max");
 		span.innerHTML = "";
 		span.style.display = "none";
 		span.classList.remove("input-group-text");
 		span.parentElement.classList.remove("input-group");
-		percenttooltip.style.display = "none";
 	}
 }
 
@@ -700,13 +697,11 @@ function abilityGroupAddAbility(button) {
 			</div>
 		`
 		);
-		document
-			.getElementById(`ability${idx}.${newAbilityIdx}.0`)
-			.scrollIntoView({
-				behavior: "smooth",
-				block: "center",
-				inline: "center",
-			});
+		document.getElementById(`ability${idx}.${newAbilityIdx}.0`).scrollIntoView({
+			behavior: "smooth",
+			block: "center",
+			inline: "center",
+		});
 	} else {
 		let newAbilityIdx = findMissingID(parameters.children, 11, 1);
 		parameters.insertAdjacentHTML(
