@@ -168,11 +168,11 @@ function api(grandArray) {
 	return grandObject;
 }
 
-function formatAbility(ability) {
+function formatAbility(ability, child) {
 	let formattedAbility = { ...ability, parameters: {} };
 	if (ability.type === "abilityluck") {
-		formattedAbility.parameters.bad = formatAbility(ability["1"]);
-		formattedAbility.parameters.good = formatAbility(ability["2"]);
+		formattedAbility.parameters.bad = formatAbility(ability["1"], true);
+		formattedAbility.parameters.good = formatAbility(ability["2"], true);
 		delete formattedAbility["1"];
 		delete formattedAbility["2"];
 		delete formattedAbility.chance;
@@ -184,7 +184,7 @@ function formatAbility(ability) {
 					if (!formattedAbility.parameters.groupedAbilities)
 						formattedAbility.parameters.groupedAbilities = [];
 					formattedAbility.parameters.groupedAbilities.push(
-						formatAbility(ability[key])
+						formatAbility(ability[key], true)
 					);
 					delete formattedAbility[key];
 				}
@@ -225,10 +225,12 @@ function formatAbility(ability) {
 			else formattedAbility.parameters.cantargetdead = true;
 		}
 	}
-	if (formattedAbility.intllocked !== "on") {
-		delete formattedAbility["intllockvalue"];
-		formattedAbility.intllocked = false;
-	} else formattedAbility.intllocked = true;
+	if (!child) {
+		if (formattedAbility.intllocked !== "on") {
+			delete formattedAbility["intllockvalue"];
+			formattedAbility.intllocked = false;
+		} else formattedAbility.intllocked = true;
+	}
 	return formattedAbility;
 }
 

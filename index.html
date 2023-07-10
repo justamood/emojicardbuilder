@@ -68,14 +68,6 @@
 				oninvalid="setCustomValidity('Please select an emoji.')"
 				tabindex="-1"
 			/>
-			<div class="seperatorinputs"></div>
-			<label for="cardclass" class="form-label">Class</label>
-			<select class="form-select" name="cardclass" id="cardclass" required>
-				<option hidden disabled selected value>-- Select an option --</option>
-				<option value="cardclassoffense">Offense</option>
-				<option value="cardclasssupport">Support</option>
-				<option value="cardclassdefense">Defense</option>
-			</select>
 
 			<!-- <div class="seperatorinputs"></div>
 			<label for="cardtype" class="form-label">Type</label>
@@ -108,6 +100,28 @@
 				required
 				value="25"
 			/>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardclass" class="form-label">Class</label>
+			<select class="form-select" name="cardclass" id="cardclass" required>
+				<option hidden disabled selected value>-- Select an option --</option>
+				<option value="cardclassoffense">Offense</option>
+				<option value="cardclasssupport">Support</option>
+				<option value="cardclassdefense">Defense</option>
+			</select>
+
+			<div class="seperatorinputs"></div>
+			<label for="cardrank" class="form-label">Rank</label>
+			<select class="form-select" name="cardrank" id="cardrank" required>
+				<option hidden disabled selected value>-- Select an option --</option>
+				<option value="cardrankstarter">Starter</option>
+				<option value="cardrankbeginner">Beginner</option>
+				<option value="cardrankintermediate">Intermediate</option>
+				<option value="cardrankskilled">Skilled</option>
+				<option value="cardrankmaster">Master</option>
+				<option value="cardrankevent">Event</option>
+				<option value="cardrankspecial">Special</option>
+			</select>
 
 			<div class="seperatorinputs"></div>
 			<div class="continuebuttoncontainer">
@@ -376,7 +390,7 @@
 				<h4 id="preview" class="hidden">
 					Creating a Text Preview of Your Personalized Emoji Card...
 				</h4>
-				<div class="spinner-border" role="status"></div>
+				<span class="spinner-border text-primary" role="status"></span>
 			</div>
 			<div class="hidden" id="notes">
 				<p id="carderrors"></p>
