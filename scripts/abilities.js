@@ -333,7 +333,8 @@ function abilitySupportFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-label">Heal Type</label>
 				<br/>
 				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypefixed" value="fixed" checked onclick="abilitySupportHealTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supporthealpercent" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of lost health, not current health <em>(becomes irrelevant if the card hasn't lost any health or if its current health exceeds the base health of the card.)</em>"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypepercent" value="percent" onclick="abilitySupportHealTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label">Percent</label></div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supporthealpercenttotalcontainer" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="Percent of the amount of total amount of health the card has" > <input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypepercenttotal" value="percenttotal" onclick="abilitySupportHealTypeChange(this)" /><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label" >Percent of Total</label > </div> 
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supporthealpercentlostcontainer" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="Percent of the amount of health that the card lost <em>(Becomes irrelevant if the card hasn't lost any health or if its current health exceeds the base health of the card)</em>" > <input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}healtype" id="ability${idx}.${subidx}.${subsubidx}healtypepercentlost" value="percentlost" onclick="abilitySupportHealTypeChange(this)" /><label for="ability${idx}.${subidx}.${subsubidx}healtype" class="form-check-label" >Percent of Lost</label > </div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}heal" class="form-label">Heal Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}heal" id="ability${idx}.${subidx}.${subsubidx}heal" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
@@ -344,7 +345,13 @@ function abilitySupportFormChange(dropdown) {
 		);
 		new bootstrap.Tooltip(
 			document.getElementById(
-				`ability${idx}.${subidx}.${subsubidx}supporthealpercent`
+				`ability${idx}.${subidx}.${subsubidx}supporthealpercenttotalcontainer`
+			),
+			{ trigger: "hover" }
+		);
+		new bootstrap.Tooltip(
+			document.getElementById(
+				`ability${idx}.${subidx}.${subsubidx}supporthealpercentlostcontainer`
 			),
 			{ trigger: "hover" }
 		);
@@ -356,15 +363,22 @@ function abilitySupportFormChange(dropdown) {
 				<label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-label">Increase Type</label>
 				<br/>
 				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypefixed" value="fixed" checked onclick="abilitySupportIncreaseTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supportintlpercent" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of lost intelligence, not current intelligence <em>(becomes irrelevant if the card hasn't lost any intelligence or if its current intelligence exceeds the base intelligence of the card.)</em>"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypepercent" value="percent" onclick="abilitySupportIncreaseTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label">Percent</label></div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supportincreasepercenttotalcontainer" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="Percent of the amount of total amount of intelligence the card has" > <input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypepercenttotal" value="percenttotal" onclick="abilitySupportIncreaseTypeChange(this)" /><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label" >Percent of Total</label > </div> 
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}supportincreasepercentlostcontainer" data-bs-html="true" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="Percent of the amount of intelligence that the card lost <em>(Becomes irrelevant if the card hasn't lost any intelligence or if its current intelligence exceeds the base intelligence of the card)</em>" > <input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}increasetype" id="ability${idx}.${subidx}.${subsubidx}increasetypepercentlost" value="percentlost" onclick="abilitySupportIncreaseTypeChange(this)" /><label for="ability${idx}.${subidx}.${subsubidx}increasetype" class="form-check-label" >Percent of Lost</label > </div>
 				<div class="seperatorinputs"></div>
-				<label for="ability${idx}.${subidx}.${subsubidx}heal" class="form-label">Increase Amount</label>
+				<label for="ability${idx}.${subidx}.${subsubidx}increase" class="form-label">Increase Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}increase" id="ability${idx}.${subidx}.${subsubidx}increase" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
 			`
 		);
 		new bootstrap.Tooltip(
 			document.getElementById(
-				`ability${idx}.${subidx}.${subsubidx}supportintlpercent`
+				`ability${idx}.${subidx}.${subsubidx}supportincreasepercenttotalcontainer`
+			),
+			{ trigger: "hover" }
+		);
+		new bootstrap.Tooltip(
+			document.getElementById(
+				`ability${idx}.${subidx}.${subsubidx}supportincreasepercentlostcontainer`
 			),
 			{ trigger: "hover" }
 		);

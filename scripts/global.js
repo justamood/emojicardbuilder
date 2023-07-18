@@ -56,7 +56,7 @@ function prevFormStep() {
 function goToValidateStep() {
 	notes.innerHTML = `
 						<p id="carderrors"></p>
-						<p id="cardpreview"></p>
+						<div class="accordion" id="cardpreview"></div>
 						<div class="cardjsoncontainer">
 							<button
 								class="btn btn-primary btn-block"
@@ -74,7 +74,6 @@ function goToValidateStep() {
 	steps.forEach((step) => {
 		step.classList.add("hidden");
 	});
-	step4.classList.remove("hidden");
 	let grandArray = [];
 	forms.forEach(
 		(form) => (grandArray = grandArray.concat([...new FormData(form)]))
@@ -85,8 +84,10 @@ function goToValidateStep() {
 	notes.classList.remove("hidden");
 	const jsoncodeblock = document.getElementById("cardjson");
 	copyvalue = JSON.stringify(res, null, 4);
+	generatePreview(res);
 	jsoncodeblock.innerHTML = copyvalue;
 	PR.prettyPrint();
+	step4.classList.remove("hidden");
 }
 
 /**
@@ -103,7 +104,7 @@ function api(grandArray) {
 		const key = rawKey
 			.replace("card", "")
 			.replace(`ability${idx}.${subidx}.${subsubidx}`, "");
-		let value = parseInt(rawValue) ? parseInt(rawValue) : rawValue;
+		let value = !isNaN(Number(rawValue)) ? Number(rawValue) : rawValue;
 
 		if (rawKey === "cardemoji") grandObject.info[key] = JSON.parse(value);
 		else if (rawKey.startsWith("card")) grandObject.info[key] = value;
@@ -168,7 +169,7 @@ function api(grandArray) {
 	return grandObject;
 }
 
-function formatAbility(ability, child) {
+function formatAbility(ability, isChildAbility) {
 	let formattedAbility = { ...ability, parameters: {} };
 	if (ability.type === "abilityluck") {
 		formattedAbility.parameters.bad = formatAbility(ability["1"], true);
@@ -225,13 +226,147 @@ function formatAbility(ability, child) {
 			else formattedAbility.parameters.cantargetdead = true;
 		}
 	}
-	if (!child) {
+	if (!isChildAbility) {
 		if (formattedAbility.intllocked !== "on") {
 			delete formattedAbility["intllockvalue"];
 			formattedAbility.intllocked = false;
 		} else formattedAbility.intllocked = true;
 	}
 	return formattedAbility;
+}
+
+function generatePreview(cardJSON) {
+	let infoPreview = generatePreviewInfo(cardJSON.info).join("<br/>");
+	let abilitiesPreview = cardJSON.abilities
+		.map((v) => generatePreviewAbility(v, false))
+		.join('<div class="seperatorinputs"></div>');
+	let superPreview = generatePreviewAbility(cardJSON.super, false);
+
+	document.getElementById("cardpreview").innerHTML = `
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button
+								class="accordion-button"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#cardpreviewinfo"
+							>
+								Basic Information
+							</button>
+						</h2>
+						<div
+							class="accordion-collapse collapse show"
+							data-bs-parent="#cardpreview"
+							id="cardpreviewinfo"
+						>
+							<div class="accordion-body">
+								${infoPreview}
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button
+								class="accordion-button"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#cardpreviewabilities"
+							>
+								Abilities
+							</button>
+						</h2>
+						<div
+							class="accordion-collapse collapse"
+							data-bs-parent="#cardpreview"
+							id="cardpreviewabilities"
+						>
+							<div class="accordion-body">
+								${abilitiesPreview}
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button
+								class="accordion-button"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#cardpreviewsuper"
+							>
+								Super Ability
+							</button>
+						</h2>
+						<div
+							class="accordion-collapse collapse"
+							data-bs-parent="#cardpreview"
+							id="cardpreviewsuper"
+						>
+							<div class="accordion-body">
+								${superPreview}
+							</div>
+						</div>
+					</div>
+				`;
+}
+
+function generatePreviewInfo(cardJSONInfo) {
+	let preview = [];
+	for (const key in cardJSONInfo) {
+		if (Object.hasOwnProperty.call(cardJSONInfo, key)) {
+			let value = cardJSONInfo[key];
+			if (value == "") value = "N/A";
+			if (key === "emoji")
+				value = `<span id="previewemoji"><img id="previewemojimage" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${value.unified}.svg"/> <em id="previewemojitext">(${value.id})</em></span>`;
+			preview.push(
+				`<b>${infoPreviewReplacements[key]}:</b> ${
+					infoPreviewReplacements[value] || value
+				}`
+			);
+		}
+	}
+	return preview;
+}
+
+function generatePreviewAbility(cardJSONAbility, isChildAbility) {
+	let preview = [
+		abilityPreviewTemplates.title(
+			cardJSONAbility.name,
+			abilityPreviewReplacements[cardJSONAbility.type]
+		),
+	];
+	if (cardJSONAbility.type === "abilityluck")
+		preview.push(
+			abilityPreviewTemplates.luck(
+				cardJSONAbility.parameters.chance,
+				generatePreviewAbility(cardJSONAbility.parameters.bad, true),
+				generatePreviewAbility(cardJSONAbility.parameters.good, true)
+			)
+		);
+	else if (cardJSONAbility.type === "abilitygroup")
+		preview.push(
+			abilityPreviewTemplates.group(
+				...cardJSONAbility.parameters.groupedAbilities.map((v) =>
+					generatePreviewAbility(v, true)
+				)
+			)
+		);
+	else
+		preview.push(
+			abilityPreviewTemplates[cardJSONAbility.form.substring(7)](
+				cardJSONAbility.parameters
+			)
+		);
+	if (!isChildAbility) {
+		preview[1] +=
+			"<br/>" + abilityPreviewTemplates.cooldown(cardJSONAbility.cooldown);
+		preview[1] +=
+			"<br/>" +
+			abilityPreviewTemplates.intllocked(
+				cardJSONAbility.intllocked,
+				cardJSONAbility.intllockvalue
+			);
+		return preview.join("<br/>");
+	} else return preview[1];
 }
 
 window.addEventListener("load", () => {

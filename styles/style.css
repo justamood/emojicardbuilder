@@ -235,6 +235,10 @@ h6 {
 	--bs-tooltip-color: #111 !important;
 }
 
+#previewemojimage {
+	height: 2em;
+}
+
 /* @keyframes slide-up {
 	0% {
 		opacity: 0;
