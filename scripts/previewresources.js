@@ -100,7 +100,7 @@ const abilityPreviewTemplates = {
 		else preview += "from a card ";
 
 		if (target === "opponent") preview += "in the opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -117,7 +117,7 @@ const abilityPreviewTemplates = {
 		else preview += "from a card ";
 
 		if (target === "opponent") preview += "in the opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -134,7 +134,7 @@ const abilityPreviewTemplates = {
 		else preview += "to a card ";
 
 		if (target === "opponent") preview += "in the opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -163,7 +163,7 @@ const abilityPreviewTemplates = {
 			} `;
 
 		if (target === "opponent") preview += "in the opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -182,7 +182,7 @@ const abilityPreviewTemplates = {
 		else preview += "to a card ";
 
 		if (target === "opponent") preview += "in the opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -200,7 +200,7 @@ const abilityPreviewTemplates = {
 		else preview += "to a card ";
 
 		if (target === "opponent") preview += "in the opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -208,15 +208,15 @@ const abilityPreviewTemplates = {
 		const { lastsfor, target } = parameters;
 
 		return target === "opponent"
-			? `Stuns a card in your opponent's deck for ${lastsfor} turn(s)`
-			: `Stuns a card in your deck for ${lastsfor} turn(s)`;
+			? `Stuns a card in the opponent's deck for ${lastsfor} turn(s)`
+			: `Stuns a card in the user's deck for ${lastsfor} turn(s)`;
 	},
 	controlturnskip: (parameters) => {
 		const { lastsfor, target } = parameters;
 
 		return target === "opponent"
-			? `Skips your opponent's next ${lastsfor} turn(s)`
-			: `Skips your next ${lastsfor} turn(s)`;
+			? `Skips the opponent's next ${lastsfor} turn(s)`
+			: `Skips the user's next ${lastsfor} turn(s)`;
 	},
 	controlremovedebuffs: (parameters) => {
 		const { deck, target } = parameters;
@@ -226,8 +226,8 @@ const abilityPreviewTemplates = {
 		if (deck) preview += "Removes all debuffs from all cards ";
 		else preview += "Removes all debuffs from a single card ";
 
-		if (target === "opponent") preview += "in your opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		if (target === "opponent") preview += "in the opponent's deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},
@@ -239,8 +239,8 @@ const abilityPreviewTemplates = {
 		if (deck) preview += "Removes all boosts from all cards ";
 		else preview += "Removes all boosts from a single card ";
 
-		if (target === "opponent") preview += "in your opponent's deck";
-		else if (target === "self") preview += "in your deck";
+		if (target === "opponent") preview += "in the opponent's deck";
+		else if (target === "self") preview += "in the user's deck";
 
 		return preview;
 	},

@@ -69,6 +69,14 @@ function goToValidateStep() {
 							<pre
 								class="prettyprint"
 							><code id="cardjson" class="lang-json"></code></pre>
+							<button
+								class="btn btn-primary btn-block"
+								type="button"
+								id="copyjson"
+								onclick="navigator.clipboard.writeText(copyvalue)"
+							>
+								Copy JSON
+							</button>
 						</div>
 					`;
 	steps.forEach((step) => {
@@ -238,9 +246,9 @@ function formatAbility(ability, isChildAbility) {
 function generatePreview(cardJSON) {
 	let infoPreview = generatePreviewInfo(cardJSON.info).join("<br/>");
 	let abilitiesPreview = cardJSON.abilities
-		.map((v) => generatePreviewAbility(v, false))
+		.map((v) => generatePreviewAbility(v, false, false))
 		.join('<div class="seperatorinputs"></div>');
-	let superPreview = generatePreviewAbility(cardJSON.super, false);
+	let superPreview = generatePreviewAbility(cardJSON.super, false, true);
 
 	document.getElementById("cardpreview").innerHTML = `
 					<div class="accordion-item">
@@ -331,7 +339,11 @@ function generatePreviewInfo(cardJSONInfo) {
 	return preview;
 }
 
-function generatePreviewAbility(cardJSONAbility, isChildAbility) {
+function generatePreviewAbility(
+	cardJSONAbility,
+	isChildAbility,
+	isSuperAbility
+) {
 	let preview = [
 		abilityPreviewTemplates.title(
 			cardJSONAbility.name,
@@ -363,8 +375,9 @@ function generatePreviewAbility(cardJSONAbility, isChildAbility) {
 			)
 		);
 	if (!isChildAbility) {
-		preview[1] +=
-			"<br/>" + abilityPreviewTemplates.cooldown(cardJSONAbility.cooldown);
+		if (!isSuperAbility)
+			preview[1] +=
+				"<br/>" + abilityPreviewTemplates.cooldown(cardJSONAbility.cooldown);
 		preview[1] +=
 			"<br/>" +
 			abilityPreviewTemplates.intllocked(
