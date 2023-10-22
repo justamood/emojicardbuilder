@@ -22,7 +22,7 @@ const abilityPreviewReplacements = {
 	super: "Super",
 	name: "Name",
 	type: "Type",
-	abilitydamage: "Damage Ability",
+	abilityoffense: "Offense Ability",
 	abilitysupport: "Support Ability",
 	abilitycontrol: "Control Ability",
 	abilitygroup: "Ability Group",
@@ -36,11 +36,11 @@ const abilityPreviewReplacements = {
 	chance: "Chance",
 	groupedAbilities: "Grouped Abilities",
 	form: "Form",
-	abilitydamagedirect: "Direct Damage",
-	abilitydamageintelligence: "Intelligence Damage",
+	abilityoffensedirect: "Damage",
+	abilityoffenseintelligence: "Intelligence Damage",
 	damagetype: "Damage Type",
 	damage: "Damage",
-	abilitydamagedebuff: "Damage Debuff",
+	abilityoffensedebuff: "Damage Debuff",
 	debufftype: "Debuff Type",
 	debuff: "Debuff",
 	abilitysupporthealing: "Healing",
@@ -79,16 +79,16 @@ const abilityPreviewTemplates = {
 		isIntllocked
 			? `<em>Requires at least ${intllockvalue} intelligence</em>`
 			: "<em>Not intelligence locked</em>",
-	luck: (chance, bad, good) =>
+	luck: (chance, bad, badType, good, goodType) =>
 		`Bad Ability <em>(has a ${chance}% chance of occuring)</em>:<br/>${
-			bad.type !== "abilitygroup" ? `&ensp;${bad}` : bad
-		}<div class="seperatorinputs"></div>Good Ability <em>(has a ${
+			badType !== "abilitygroup" ? `&ensp;${bad}` : bad
+		}<br/>Good Ability <em>(has a ${
 			100 - chance
 		}% chance of occuring)</em>:<br/>${
-			good.type !== "abilitygroup" ? `&ensp;${good}` : good
+			goodType !== "abilitygroup" ? `&ensp;${good}` : good
 		}`,
 	group: (...abilities) => abilities.map((v) => `&ensp;${v}`).join("<br/>"),
-	damagedirect: (parameters) => {
+	offensedamage: (parameters) => {
 		const { damagetype, damage, deck, target } = parameters;
 		let preview = "";
 
@@ -104,7 +104,7 @@ const abilityPreviewTemplates = {
 
 		return preview;
 	},
-	damageintelligence: (parameters) => {
+	offenseintelligence: (parameters) => {
 		const { damagetype, damage, deck, target } = parameters;
 
 		let preview = "";
@@ -121,13 +121,14 @@ const abilityPreviewTemplates = {
 
 		return preview;
 	},
-	damagedebuff: (parameters) => {
-		const { debufftype, debuff, deck, target } = parameters;
+	offensedebuff: (parameters) => {
+		const { debufftype, debuff, deck, target, lastsfor } = parameters;
 		let preview = "";
 
-		if (debufftype === "fixed") preview += `Gives a -${debuff} damage debuff `;
+		if (debufftype === "fixed")
+			preview += `Gives a -${debuff} damage debuff for ${lastsfor} turns(s) `;
 		else if (debufftype === "percent")
-			preview += `Gives a -${debuff}% damage debuff `;
+			preview += `Gives a -${debuff}% damage debuff for ${lastsfor} turns(s) `;
 
 		if (deck) preview += "to all cards ";
 		else preview += "to a card ";
@@ -157,8 +158,8 @@ const abilityPreviewTemplates = {
 		else
 			preview += `to a card ${
 				cantargetdead
-					? "<em>(May be a dead card)</em> "
-					: "<em>(May not be a dead card)</em> "
+					? "<em>(May be dead)</em> "
+					: "<em>(May not be dead)</em> "
 			} `;
 
 		if (target === "opponent") preview += "in the opponent's deck";
@@ -186,13 +187,14 @@ const abilityPreviewTemplates = {
 		return preview;
 	},
 	supportboost: (parameters) => {
-		const { boosttype, boost, deck, target } = parameters;
+		const { boosttype, boost, deck, target, lastsfor } = parameters;
 
 		let preview = "";
 
-		if (boosttype === "fixed") preview += `Gives a +${boost} damage boost `;
+		if (boosttype === "fixed")
+			preview += `Gives a +${boost} damage boost for ${lastsfor} turns(s) `;
 		else if (boosttype === "percent")
-			preview += `Gives a +${boost}% damage boost `;
+			preview += `Gives a +${boost}% damage boost for ${lastsfor} turns(s) `;
 
 		if (deck) preview += "to all cards ";
 		else preview += "to a card ";

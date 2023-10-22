@@ -25,7 +25,7 @@ function newAbility() {
 				<label for="ability${idx}.0.0type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.0.0type" id="ability${idx}.0.0type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Offense</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 					<option value="abilitygroup">Ability Group</option>
@@ -77,7 +77,7 @@ function abilityTypeChange(dropdown) {
 	).forEach((ele) => {
 		ele.classList.remove("hideunlesssmthselected");
 	});
-	if (value === "abilitydamage") newDamageAbility(dropdown.parentElement);
+	if (value === "abilityoffense") newOffenseAbility(dropdown.parentElement);
 	else if (value === "abilitysupport")
 		newSupportAbility(dropdown.parentElement);
 	else if (value === "abilitycontrol")
@@ -106,7 +106,7 @@ function abilityIntlLockChanged(checkbox) {
 /**
 	@param {HTMLElement} abilityElement
  */
-function newDamageAbility(abilityElement) {
+function newOffenseAbility(abilityElement) {
 	const idx = abilityElement.id.charAt(7);
 	const subidx = abilityElement.id.charAt(9);
 	const subsubidx = abilityElement.id.charAt(11);
@@ -119,11 +119,11 @@ function newDamageAbility(abilityElement) {
 		"afterbegin",
 		`
 			<label for="ability${idx}.${subidx}.${subsubidx}form" class="form-label">Form</label>
-			<select class="form-select" name="ability${idx}.${subidx}.${subsubidx}form" id="ability${idx}.${subidx}.${subsubidx}form" onchange="abilityDamageFormChange(this)" required>
+			<select class="form-select" name="ability${idx}.${subidx}.${subsubidx}form" id="ability${idx}.${subidx}.${subsubidx}form" onchange="abilityOffenseFormChange(this)" required>
 				<option hidden disabled selected value>-- Select an option --</option>
-				<option value="abilitydamagedirect">Direct Damage</option>
-				<option value="abilitydamageintelligence">Intelligence Damage</option>
-				<option value="abilitydamagedebuff">Damage Debuff</option>
+				<option value="abilityoffensedamage">Damage</option>
+				<option value="abilityoffenseintelligence">Intelligence Decrease</option>
+				<option value="abilityoffensedebuff">Damage Debuff</option>
 			</select>
 		`
 	);
@@ -141,7 +141,7 @@ function newDamageAbility(abilityElement) {
 /**
 	@param {HTMLElement} abilityElement
  */
-function abilityDamageFormChange(dropdown) {
+function abilityOffenseFormChange(dropdown) {
 	const idx = dropdown.name.charAt(7);
 	const subidx = dropdown.name.charAt(9);
 	const subsubidx = dropdown.name.charAt(11);
@@ -150,15 +150,15 @@ function abilityDamageFormChange(dropdown) {
 		`ability${idx}.${subidx}.${subsubidx}parameters`
 	);
 	parameters.innerHTML = "";
-	if (value === "abilitydamagedirect") {
+	if (value === "abilityoffensedamage") {
 		parameters.insertAdjacentHTML(
 			"afterbegin",
 			`
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-label">Damage Type</label>
 				<br/>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypefixed" value="fixed" checked onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}damagedirectpercent" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of remaining health, not base health"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
+				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypefixed" value="fixed" checked onclick="abilityOffenseDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Fixed Value</label></div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}damagedamagepercent" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of remaining health, not base health"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityOffenseDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}damage" class="form-label">Damage Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}damage" id="ability${idx}.${subidx}.${subsubidx}damage" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
@@ -166,19 +166,19 @@ function abilityDamageFormChange(dropdown) {
 		);
 		new bootstrap.Tooltip(
 			document.getElementById(
-				`ability${idx}.${subidx}.${subsubidx}damagedirectpercent`
+				`ability${idx}.${subidx}.${subsubidx}damagedamagepercent`
 			),
 			{ trigger: "hover" }
 		);
-	} else if (value === "abilitydamageintelligence") {
+	} else if (value === "abilityoffenseintelligence") {
 		parameters.insertAdjacentHTML(
 			"afterbegin",
 			`
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-label">Damage Type</label>
 				<br/>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypefixed" value="fixed" checked onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Fixed Value</label></div>
-				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}damageintlpercent" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of remaining intelligence, not base intelligence"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityDamageDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
+				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypefixed" value="fixed" checked onclick="abilityOffenseDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Fixed Value</label></div>
+				<div class="form-check form-check-inline" id="ability${idx}.${subidx}.${subsubidx}damageintlpercent" data-bs-custom-class="percenttooltip" data-toggle="tooltip" title="*Percent of remaining intelligence, not base intelligence"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}damagetype" id="ability${idx}.${subidx}.${subsubidx}damagetypepercent" value="percent" onclick="abilityOffenseDamageTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}damagetype" class="form-check-label">Percent</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}damage" class="form-label">Damage Amount</label>
 				<div class=""><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}damage" id="ability${idx}.${subidx}.${subsubidx}damage" min="1" required/><span class="" style="display:none" id="ability${idx}.${subidx}.${subsubidx}span"></span></div>
@@ -190,15 +190,15 @@ function abilityDamageFormChange(dropdown) {
 			),
 			{ trigger: "hover" }
 		);
-	} else if (value === "abilitydamagedebuff") {
+	} else if (value === "abilityoffensedebuff") {
 		parameters.insertAdjacentHTML(
 			"afterbegin",
 			`
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}debufftype" class="form-label">Debuff Type</label>
 				<br/>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}debufftype" id="ability${idx}.${subidx}.${subsubidx}debufftypepercent" value="percent" checked onclick="abilityDamageDebuffTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}debufftype" class="form-check-label">Percent</label></div>
-				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}debufftype" id="ability${idx}.${subidx}.${subsubidx}debufftypefixed" value="fixed" onclick="abilityDamageDebuffTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}debufftype" class="form-check-label">Fixed Value</label></div>
+				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}debufftype" id="ability${idx}.${subidx}.${subsubidx}debufftypepercent" value="percent" checked onclick="abilityOffenseDebuffTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}debufftype" class="form-check-label">Percent</label></div>
+				<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ability${idx}.${subidx}.${subsubidx}debufftype" id="ability${idx}.${subidx}.${subsubidx}debufftypefixed" value="fixed" onclick="abilityOffenseDebuffTypeChange(this)"/><label for="ability${idx}.${subidx}.${subsubidx}debufftype" class="form-check-label">Fixed Value</label></div>
 				<div class="seperatorinputs"></div>
 				<label for="ability${idx}.${subidx}.${subsubidx}debuff" class="form-label">Debuff Amount</label>
 				<div class="input-group"><input class="form-control" type="number" step="1" name="ability${idx}.${subidx}.${subsubidx}debuff" id="ability${idx}.${subidx}.${subsubidx}debuff" min="1" max="100" required/><span class="input-group-text" id="ability${idx}.${subidx}.${subsubidx}span">%</span></div>
@@ -222,7 +222,7 @@ function abilityDamageFormChange(dropdown) {
 /**
 	@param {HTMLElement} radio
  */
-function abilityDamageDamageTypeChange(radio) {
+function abilityOffenseDamageTypeChange(radio) {
 	const idx = radio.name.charAt(7);
 	const subidx = radio.name.charAt(9);
 	const subsubidx = radio.name.charAt(11);
@@ -251,7 +251,7 @@ function abilityDamageDamageTypeChange(radio) {
 /**
 	@param {HTMLElement} radio
  */
-function abilityDamageDebuffTypeChange(radio) {
+function abilityOffenseDebuffTypeChange(radio) {
 	const idx = radio.name.charAt(7);
 	const subidx = radio.name.charAt(9);
 	const subsubidx = radio.name.charAt(11);
@@ -424,8 +424,14 @@ function abilitySupportHealTypeChange(radio) {
 	const span = document.getElementById(
 		`ability${idx}.${subidx}.${subsubidx}span`
 	);
-	if (value === "percent") {
+	if (value === "percentlost") {
 		input.setAttribute("max", "100");
+		span.innerHTML = "%";
+		span.style.display = "inline";
+		span.classList.add("input-group-text");
+		span.parentElement.classList.add("input-group");
+	} else if (value === "percenttotal") {
+		input.removeAttribute("max");
 		span.innerHTML = "%";
 		span.style.display = "inline";
 		span.classList.add("input-group-text");
@@ -453,8 +459,14 @@ function abilitySupportIncreaseTypeChange(radio) {
 	const span = document.getElementById(
 		`ability${idx}.${subidx}.${subsubidx}span`
 	);
-	if (value === "percent") {
+	if (value === "percentlost") {
 		input.setAttribute("max", "100");
+		span.innerHTML = "%";
+		span.style.display = "inline";
+		span.classList.add("input-group-text");
+		span.parentElement.classList.add("input-group");
+	} else if (value === "percenttotal") {
+		input.removeAttribute("max");
 		span.innerHTML = "%";
 		span.style.display = "inline";
 		span.classList.add("input-group-text");
@@ -602,7 +614,7 @@ function newAbilityGroup(abilityElement) {
 				<label for="ability${idx}.1.0type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.1.0type" id="ability${idx}.1.0type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 				</select>
@@ -617,7 +629,7 @@ function newAbilityGroup(abilityElement) {
 				<label for="ability${idx}.2.0type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.2.0type" id="ability${idx}.2.0type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 				</select>
@@ -637,7 +649,7 @@ function newAbilityGroup(abilityElement) {
 				<label for="ability${idx}.${subidx}.1type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.${subidx}.1type" id="ability${idx}.${subidx}.1type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 				</select>
@@ -652,7 +664,7 @@ function newAbilityGroup(abilityElement) {
 				<label for="ability${idx}.${subidx}.2type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.${subidx}.2type" id="ability${idx}.${subidx}.2type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 				</select>
@@ -699,7 +711,7 @@ function abilityGroupAddAbility(button) {
 				<label for="ability${idx}.${newAbilityIdx}.0type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.${newAbilityIdx}.0type" id="ability${idx}.${newAbilityIdx}.0type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 				</select>
@@ -727,7 +739,7 @@ function abilityGroupAddAbility(button) {
 				<label for="ability${idx}.${subidx}.${newAbilityIdx}type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.${subidx}.${newAbilityIdx}type" id="ability${idx}.${subidx}.${newAbilityIdx}type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 				</select>
@@ -792,7 +804,7 @@ function newLuckAbility(abilityElement) {
 				<label for="ability${idx}.1.0type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.1.0type" id="ability${idx}.1.0type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 					<option value="abilitygroup">Ability Group</option>
@@ -807,7 +819,7 @@ function newLuckAbility(abilityElement) {
 				<label for="ability${idx}.2.0type" class="form-label">Type</label>
 				<select class="form-select" name="ability${idx}.2.0type" id="ability${idx}.2.0type" onchange="abilityTypeChange(this)" required>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Damage</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 					<option value="abilitygroup">Ability Group</option>

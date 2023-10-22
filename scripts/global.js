@@ -316,7 +316,11 @@ function generatePreviewInfo(cardJSONInfo) {
 			let value = cardJSONInfo[key];
 			if (value == "") value = "N/A";
 			if (key === "emoji")
-				value = `<span id="previewemoji"><img id="previewemojimage" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${value.unified}.svg"/> <em id="previewemojitext">(${value.id})</em></span>`;
+				value = `<span id="previewemoji"><img id="previewemojimage" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${
+					value.unified
+				}.svg" onerror="this.src = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${
+					value.unified.split("-")[0]
+				}.svg'"/> <em id="previewemojitext">(${value.id})</em></span>`;
 			preview.push(
 				`<b>${infoPreviewReplacements[key]}:</b> ${
 					infoPreviewReplacements[value] || value
@@ -339,7 +343,9 @@ function generatePreviewAbility(cardJSONAbility, isChildAbility) {
 			abilityPreviewTemplates.luck(
 				cardJSONAbility.parameters.chance,
 				generatePreviewAbility(cardJSONAbility.parameters.bad, true),
-				generatePreviewAbility(cardJSONAbility.parameters.good, true)
+				cardJSONAbility.parameters.bad.type,
+				generatePreviewAbility(cardJSONAbility.parameters.good, true),
+				cardJSONAbility.parameters.good.type
 			)
 		);
 	else if (cardJSONAbility.type === "abilitygroup")

@@ -192,7 +192,7 @@
 						<option hidden disabled selected value>
 							-- Select an option --
 						</option>
-						<option value="abilitydamage">Damage</option>
+						<option value="abilityoffense">Offense</option>
 						<option value="abilitysupport">Support</option>
 						<option value="abilitycontrol">Control</option>
 						<option value="abilitygroup">Ability Group</option>
@@ -318,7 +318,7 @@
 					required
 				>
 					<option hidden disabled selected value>-- Select an option --</option>
-					<option value="abilitydamage">Damage</option>
+					<option value="abilityoffense">Offense</option>
 					<option value="abilitysupport">Support</option>
 					<option value="abilitycontrol">Control</option>
 					<option value="abilitygroup">Ability Group</option>
@@ -407,6 +407,14 @@
 					<pre
 						class="prettyprint"
 					><code id="cardjson" class="lang-json"></code></pre>
+					<button
+						class="btn btn-primary"
+						type="button"
+						id="copyjson"
+						onclick="navigator.clipboard.writeText(copyvalue)"
+					>
+						Copy JSON
+					</button>
 				</div>
 			</div>
 			<div class="seperatorinputs"></div>
